@@ -18,20 +18,34 @@
     label {
       font-weight: bold;
     }
+    small {
+      color: #666;
+      font-size: 0.9em;
+    }
   </style>
   <script>
     function fireAndRedirect() {
-      const trackingUrl = document.getElementById("trackingUrl").value;
-      const finalUrl = document.getElementById("finalUrl").value;
+      let trackingUrl = document.getElementById("trackingUrl").value.trim();
+      let finalUrl = document.getElementById("finalUrl").value.trim();
 
       if (!trackingUrl || !finalUrl) {
         alert("Please enter both URLs.");
         return;
       }
 
+      // Add https:// if missing
+      if (!/^https?:\/\//i.test(trackingUrl)) {
+        trackingUrl = "https://" + trackingUrl;
+      }
+      if (!/^https?:\/\//i.test(finalUrl)) {
+        finalUrl = "https://" + finalUrl;
+      }
+
+      // Fire the tracking URL (background ping)
       const img = new Image();
       img.src = trackingUrl;
 
+      // Redirect to the final URL
       window.location.href = finalUrl;
     }
   </script>
@@ -44,11 +58,16 @@
 
   <label for="finalUrl">Final Landing Page:</label>
   <input type="text" id="finalUrl" placeholder="https://www.destination-site.com/..." />
+  <small>
+    ⚠️ Must include <strong>https://</strong> in the landing page URL (e.g. <code>https://example.com</code>).<br>
+    The tool will auto-correct if it's missing.
+  </small>
 
+  <br><br>
   <button onclick="fireAndRedirect()">Fire & Redirect</button>
 
   <p style="font-size: 0.9em; color: #555;">
-    This simulates parallel tracking: sends a GET to the tracking URL in the background and redirects to the final page.
+    This simulates parallel tracking: sends a GET request to the tracking URL in the background and redirects to the final page.
   </p>
 </body>
 </html>
