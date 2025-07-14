@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Parallel Tracking Tester</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2em;
+      max-width: 600px;
+      margin: auto;
+    }
+    input, button {
+      padding: 0.5em;
+      margin: 0.5em 0;
+      width: 100%;
+    }
+    label {
+      font-weight: bold;
+    }
+  </style>
+  <script>
+    function fireAndRedirect() {
+      const trackingUrl = document.getElementById("trackingUrl").value;
+      const finalUrl = document.getElementById("finalUrl").value;
+
+      if (!trackingUrl || !finalUrl) {
+        alert("Please enter both URLs.");
+        return;
+      }
+
+      const img = new Image();
+      img.src = trackingUrl;
+
+      window.location.href = finalUrl;
+    }
+  </script>
+</head>
+<body>
+  <h2>Parallel Tracking Click Simulator</h2>
+
+  <label for="trackingUrl">Tracking URL (GET ping):</label>
+  <input type="text" id="trackingUrl" placeholder="https://tracking.example.com/..." />
+
+  <label for="finalUrl">Final Landing Page:</label>
+  <input type="text" id="finalUrl" placeholder="https://www.destination-site.com/..." />
+
+  <button onclick="fireAndRedirect()">Fire & Redirect</button>
+
+  <p style="font-size: 0.9em; color: #555;">
+    This simulates parallel tracking: sends a GET to the tracking URL in the background and redirects to the final page.
+  </p>
+</body>
+</html>
